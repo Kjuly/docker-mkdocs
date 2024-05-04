@@ -1,2 +1,2 @@
 # docker-mkdocs
-A docker image of MkDocs.
+A tiny docker image for MkDocs, based on alpine with python 3.
