@@ -8,7 +8,9 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
 
 env:
-  IMAGE_NAME: kjuly/mkdocs
+  BASE_IMAGE_NAME: kjuly/mkdocs
+  MATERIAL_IMAGE_NAME: kjuly/mkdocs-material
+  MATERIAL_IMAGE_DOCKERFILE: Dockerfile-material
 
 permissions:
   contents: read
@@ -27,17 +29,38 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build and Push Image to Docker Hub
+      # mkdocs
+
+      - name: Build and Push Image to Docker Hub - mkdocs
         uses: kjuly/docker-image-publisher@main
         with:
-          image_name: ${{ env.IMAGE_NAME }}
+          image_name: ${{ env.BASE_IMAGE_NAME }}
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           token: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and Push Image to Github Container Registry
+      - name: Build and Push Image to Github Container Registry - mkdocs
         uses: kjuly/docker-image-publisher@main
         with:
           registry: ghcr.io
-          image_name: ${{ env.IMAGE_NAME }}
+          image_name: ${{ env.BASE_IMAGE_NAME }}
+          username: ${{ github.actor }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # mkdocs + theme:material
+
+      - name: Build and Push Image to Docker Hub - mkdocs+material
+        uses: kjuly/docker-image-publisher@main
+        with:
+          image_name: ${{ env.BASE_IMAGE_NAME }}
+          dockerfile: ${{ env.MATERIAL_IMAGE_DOCKERFILE }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          token: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Image to Github Container Registry - mkdocs+material
+        uses: kjuly/docker-image-publisher@main
+        with:
+          registry: ghcr.io
+          image_name: ${{ env.BASE_IMAGE_NAME }}
+          dockerfile: ${{ env.MATERIAL_IMAGE_DOCKERFILE }}
           username: ${{ github.actor }}
           token: ${{ secrets.GITHUB_TOKEN }}
