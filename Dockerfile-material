@@ -1,0 +1,14 @@
+FROM kjuly/mkdocs:latest
+
+LABEL org.opencontainers.image.authors="dev@kjuly.com" \
+      org.opencontainers.image.licenses=MIT \
+      org.opencontainers.image.source=https://github.com/Kjuly/docker-mkdocs-material \
+      org.opencontainers.image.description="A Docker image for MkDocs with MkDocs-Material theme, based on Alpine Linux with Python3."
+
+# Explicitly install wheel first to skip the deprecation warning:
+# > Using legacy 'setup.py install' for paginate, since package 'wheel' is not installed.
+# REF: https://github.com/pypa/pip/issues/11362#issuecomment-1209848981
+RUN apk add --no-cache build-base python3-dev && \
+    pip3 install wheel && \
+    pip3 install mkdocs-material && \
+    apk del --purge -r build-base python3-dev
