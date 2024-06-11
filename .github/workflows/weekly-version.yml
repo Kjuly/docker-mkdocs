@@ -1,0 +1,17 @@
+name: Weekly Version
+
+on:
+  workflow_dispatch:
+
+  schedule:
+  - cron: "0 12 * * 3"
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Tag for New Version
+        uses: kjuly/tag-xyz@main
+        with:
+          version_level: "z"
+          dispatch_workflow_id: "build-n-push.yml"
