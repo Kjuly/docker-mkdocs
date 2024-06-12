@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:latest
 
 LABEL org.opencontainers.image.authors="dev@kjuly.com" \
       org.opencontainers.image.licenses=MIT \
