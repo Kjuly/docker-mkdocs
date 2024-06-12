@@ -6,6 +6,10 @@ on:
   schedule:
   - cron: "0 12 * * 3"
 
+permissions:
+  contents: write
+  actions: write
+
 jobs:
   create-tag:
     runs-on: ubuntu-latest
