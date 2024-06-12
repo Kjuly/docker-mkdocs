@@ -9,6 +9,7 @@ LABEL org.opencontainers.image.authors="dev@kjuly.com" \
 # > Using legacy 'setup.py install' for paginate, since package 'wheel' is not installed.
 # REF: https://github.com/pypa/pip/issues/11362#issuecomment-1209848981
 RUN apk add --no-cache build-base python3-dev && \
+    source .venv/bin/activate && \
     pip3 install wheel && \
     pip3 install mkdocs-material && \
     apk del --purge -r build-base python3-dev
